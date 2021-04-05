@@ -2,6 +2,7 @@ import math
 import os
 import re
 import sys
+
 from typing import Iterable, Tuple, Union
 
 # REPLAY FILE FORMAT (NullpoMino)
@@ -29,18 +30,16 @@ button_dict = {
 
 action_dict = {v: k for k, v in button_dict.items()}
 
-frame_info_pattern = f'^0.r.(?P<frame_num>[1-9][0-9]*)=(?P<key_sum>[1-9][0-9]*)$'
+frame_info_pattern = f'^0.r.(?P<frame_num>[1-9][0-9]*)=(?P<key_sum>0|[1-9][0-9]*)$'
 max_frame_pattern = f'^0.r.max=(?P<max_frame>[1-9][0-9]*)$'
 num_lines_pattern = f'^0.statistics.lines=(?P<num_lines>0|[1-9][0-9]*)'
 
 
-def button_held(result: re.match, action: str):
+def button_held(key_sum: int, action: str):
     if action not in action_dict:
         raise KeyError('checking for invalid action')
     key = int(action_dict[action])
-    key_sum = int(result.group('key_sum'))
-    if key & key_sum:
-        print(f'result had {action} in it')
+    if key & key_sum != 0:
         return True
     return False
 
