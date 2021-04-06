@@ -87,7 +87,8 @@ def get_avg_fba(sequence: List[Tuple[int, int]]) -> float:
 
             action_frame = sequence[i - 1][0]
 
-        move_frames += sequence[change + 1][0] - initial_frame
+
+        move_frames += action_frame - initial_frame
     
     return move_frames / num_considered
 
