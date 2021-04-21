@@ -13,12 +13,10 @@ if __name__ == '__main__':
     data_files = glob.glob('../../tests/best_replays/*')
     print(data_files)
     
-    frame_counts = []
+    pps = []
     for data_file in sorted(data_files):
-        total_frames, lines_cleared, data = parse.get_file_info(data_file)
-        frame_counts.append(total_frames)
+        game_info = parse.get_file_info(data_file)
+        pps.append(game_info.pps)
     
-    plt.plot(list(range(len(frame_counts))), list(map(lambda entry: (entry - 100) / 60, frame_counts)))
+    plt.plot(list(range(len(frame_counts))), pps)
     plt.show()
-
-    

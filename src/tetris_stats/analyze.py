@@ -92,7 +92,6 @@ def get_avg_fba(sequence: List[Tuple[int, int]]) -> float:
     return move_frames / num_considered
 
 
-    return
 if __name__ == '__main__':
     # data_file = input('please input the path to a test replay file: \n>>> ')
     # if not os.path.exists(data_file) or not data_file.endswith('.rep'):
@@ -103,13 +102,12 @@ if __name__ == '__main__':
     # data_file = './tests/best_replays/2018_09_24_11_29_20.rep'
     data_file = './tests/best_replays/2021_02_11_15_51_52.rep'
     
-    total_frames, lines_cleared, data = parse.get_file_info(data_file)
+    game_info = parse.get_file_info(data_file)
 
-    sequence = list(data)
+    sequence = list(game_info.data)
     avg_fba = get_avg_fba(sequence)
     print(f'average frames before action = {avg_fba}')
     # if multiple button changes happen on one frame, this estimation is not accurate
-    print(f'average frames between actions ~= {(total_frames - FIRST_GAME_FRAME) / ((len(sequence) // 2) + 1)}')
+    print(f'average frames between actions ~= {(game_info.frames - FIRST_GAME_FRAME) / ((len(sequence) // 2) + 1)}')
     print(f'number of recorded key presses or releases = {len(sequence)}')
-    print(f'total frames = {total_frames}')
-
+    print(f'total frames = {game_info.frames}')
