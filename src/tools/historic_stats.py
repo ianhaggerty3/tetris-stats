@@ -1,26 +1,44 @@
 import datetime
 import glob
 import os
+import sys
+import sys
+
 from matplotlib import pyplot as plt
 from matplotlib import ticker as ticker
 import pandas as pd
 import numpy as np
 
+sys.path.append(os.path.abspath('../tetris_stats'))
+import parse
+
 REPLAY_GLOB = "G:/Applications/NullpoMino/replay/*.rep"
 DATETIME_STR = "%Y_%m_%d_%H_%M_%S.rep"
 
 if __name__ == '__main__':
-    replay_files = list(map(lambda entry: os.path.basename(entry), glob.glob(REPLAY_GLOB)))
-    replay_dates = sorted(list(map(lambda entry: datetime.datetime.strptime(entry, DATETIME_STR), replay_files)))
-    print(f'got a list of length {len(replay_dates)}')
+    replay_files = glob.glob(REPLAY_GLOB)
+    replay_dates = sorted(list(map(lambda entry: datetime.datetime.strptime(os.path.basename(entry), DATETIME_STR), replay_files)))
 
     date_count_dict = {}
-    for date in replay_dates:
+    pps_dict = {}
+
+    for replay_file, date in zip(replay_files, replay_dates):
         key_str = date.strftime('%Y-%m')
-        date_count_dict[key_str] = date_count_dict.get(key_str, 0) + 1
+        game_info = parse.get_file_info(replay_file)
+        
+        # only consider sprint games which are finished
+        # should range from 40 to 43 lines; checking upper bound eliminates 
+        # most marathon replays
+        if game_info.lines >= 40 and game_info.lines < 44:
+            date_count_dict[key_str] = date_count_dict.get(key_str, 0) + 1
+            pps_dict[key_str] = pps_dict.get(key_str, []) + [game_info.pps]
 
     count_list = []
+    pps_avg_list = [] # average the top 25% of pps results
     ticklabels = []
+
+    # filter the data to the zone without any gaps
+    last_date = replay_dates[-1]
     for i in range(2020, last_date.year + 1):
         for j in range(1, 13):
             if i == 2020 and j < 5:
@@ -29,10 +47,14 @@ if __name__ == '__main__':
                 continue
             key_str = f'{i}-{j:02}'
             count_list.append(date_count_dict.get(key_str, 0))
+            pps_list = pps_dict.get(key_str, [])
+            top_pps_list = pps_list[(3 * len(pps_list)) // 4:]
+            avg = sum(top_pps_list) / len(top_pps_list) if len(top_pps_list) != 0 else 0
+            pps_avg_list.append(avg)
             ticklabels.append(key_str)
 
     ax = plt.figure().add_subplot(111)
-    ax.plot(count_list)
+    ax.bar(list(range(len(count_list))), count_list)
 
     ax.set_xticks(np.arange(0,len(ticklabels)))
     ax.set_xticklabels(ticklabels) #add monthlabels to the xaxis
@@ -41,7 +63,20 @@ if __name__ == '__main__':
     plt.ylabel('# of completed games')
     plt.title('Completed Tetris Games Per Month')
 
-    # ax.legend(pt.columns.tolist(), loc='center left', bbox_to_anchor=(1, .5)) #add the column names as legend.
+    plt.tight_layout(rect=[0, 0, 0.85, 1])
+
+    plt.show()
+
+    ax = plt.figure().add_subplot(111)
+    ax.scatter(list(range(len(pps_avg_list))), pps_avg_list)
+
+    ax.set_xticks(np.arange(0,len(ticklabels)))
+    ax.set_xticklabels(ticklabels) #add monthlabels to the xaxis
+
+    plt.xlabel('Date (Year-Month)')
+    plt.ylabel('Average PPS (Pieces Per Second)')
+    plt.title('Average PPS Over Time')
+
     plt.tight_layout(rect=[0, 0, 0.85, 1])
 
     plt.show()
