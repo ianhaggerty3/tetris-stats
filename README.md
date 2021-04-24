@@ -31,6 +31,6 @@ broke down overall.
 Here is a plot of the PPS over time of my current personal best game. This
 is not the exact PPS, but it approximates the game's value to two decimals.
 
-![PPS Histogram](docs/pps_game_plot.png)
+![PPS Plot Over Game](docs/pps_game_plot.png)
 
 
