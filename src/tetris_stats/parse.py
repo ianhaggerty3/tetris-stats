@@ -100,9 +100,12 @@ def get_lines_cleared(lines: Iterable[str]) -> int:
     
     raise ValueError("File doesn't log total lines cleared")
 
-def get_file_info(filename: str) -> GameInfo:
+def get_file_info(filename: str, frames=True) -> GameInfo:
     with open(filename, 'r') as fid:
-        data = sorted(filter(None, map(get_line_attrs, fid)))
+        if frames is True:
+            data = sorted(filter(None, map(get_line_attrs, fid)))
+        else:
+            data = []
         
         fid.seek(0)
         try:

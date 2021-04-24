@@ -24,7 +24,7 @@ if __name__ == '__main__':
 
     for replay_file, date in zip(replay_files, replay_dates):
         key_str = date.strftime('%Y-%m')
-        game_info = parse.get_file_info(replay_file)
+        game_info = parse.get_file_info(replay_file, frames=False)
         
         # only consider sprint games which are finished
         # should range from 40 to 43 lines; checking upper bound eliminates 
@@ -39,7 +39,7 @@ if __name__ == '__main__':
 
     # filter the data to the zone without any gaps
     last_date = replay_dates[-1]
-    for i in range(2020, last_date.year + 1):
+    for i in range(2018, last_date.year + 1):
         for j in range(1, 13):
             if i == 2020 and j < 5:
                 continue
@@ -52,6 +52,11 @@ if __name__ == '__main__':
             avg = sum(top_pps_list) / len(top_pps_list) if len(top_pps_list) != 0 else 0
             pps_avg_list.append(avg)
             ticklabels.append(key_str)
+
+    # pps histogram month to consider
+    month_of_interest = 2
+    year_of_interest = 2021
+    hist_key = f'{year_of_interest}-{month_of_interest:02}'
 
     ax = plt.figure().add_subplot(111)
     ax.bar(list(range(len(count_list))), count_list)
@@ -78,5 +83,14 @@ if __name__ == '__main__':
     plt.title('Average PPS Over Time')
 
     plt.tight_layout(rect=[0, 0, 0.85, 1])
+
+    plt.show()
+
+    ax = plt.figure().add_subplot(111)
+    ax.hist(pps_dict[hist_key], bins=20)
+
+    plt.xlabel('PPS (Pieces Per Second)')
+    plt.ylabel('# of completed games')
+    plt.title('PPS Histogram for February 2021')
 
     plt.show()
