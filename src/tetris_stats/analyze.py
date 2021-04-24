@@ -30,6 +30,29 @@ def check_piece_change() -> Callable[[], Union[None, int]]:
     
     return check_piece_change_inner
 
+def get_drops() -> Callable[[], Union[None, int]]:
+    # use closure to keep track of the previous key presses
+    last_key_sum = 0
+
+    def get_drops_inner(enum: Tuple[int, Tuple[int, int]]):
+        ret: Union[None, int]
+        nonlocal last_key_sum
+
+        (i, entry) = enum
+        (frame_num, key_sum) = entry
+
+        # start the clock whenever pieces change.
+        # this means whenever a hard drop happens, or when a hold happens
+        if is_new_press(last_key_sum, key_sum, 'hard drop'):
+            ret = i
+        else:
+            ret = None
+        
+        last_key_sum = key_sum
+        return ret
+    
+    return get_drops_inner
+
 def is_new_press(old_sum: int, new_sum: int, action: str) -> bool:
     if parse.button_held(new_sum, action) is True and \
        parse.button_held(old_sum, action) is False:
@@ -38,7 +61,7 @@ def is_new_press(old_sum: int, new_sum: int, action: str) -> bool:
 
 def get_avg_fba(sequence: List[Tuple[int, int]]) -> float:
     """
-    fbm -> "Frames before action"
+    fba -> "Frames before action"
     Finds the average number of frames before a piece is moved for a given game.
     """
 
