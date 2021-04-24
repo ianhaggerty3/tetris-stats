@@ -4,11 +4,11 @@ Tracking different tetris stats vial NullpoMino replay files
 ## example stats results
 
 Here are some graphs generated using my tetris stats parsing. All of them have
-been generated from my personal replay files so fare.
+been generated from my personal replay files so far.
 
-Here is an overiview on the number of games I've played per month in the past
+Here is an overview on the number of games I've played per month in the past
 year. I have some data from before May 2020, but much of it was deleted to make
-space, so this is the only continuous interval of time I have so far. Each
+space. This is the only continuous interval of time I have. Each
 counted game has to be completely finished to be tracked; if I hit "restart"
 before finishing, it is not tracked.
 
