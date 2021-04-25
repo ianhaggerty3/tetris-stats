@@ -39,9 +39,9 @@ is not the exact PPS, but it approximates the game's value to two decimals.
 As you can see in the plot, my PPS is extremely high at the start of the game.
 This is typically the case with 40 Line Sprint games. In these games,
 you get a pre-game countdown to get ready to play, and then can immediately
-start making moves. Your first is typically be as close to the very first
-playable frame as possible, and you can plan up to six moves in advance
-based on piece previews.
+start making moves. Your first move is typically as close to the first
+playable frame as possible. You can plan up to six moves in advance
+based on piece previews prior to starting.
 
 You can see my fight to stay above 3 PPS, a milestone I hope to reach
 soon. I ended with 2.9415, and have no other games with a higher PPS.
