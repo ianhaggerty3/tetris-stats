@@ -39,7 +39,7 @@ if __name__ == '__main__':
     ax.plot(discrete_pps_frames, discrete_pps_list)
 
     plt.xlabel('Frame Number')
-    plt.ylabel('Local PPS (Pieces Per Second')
+    plt.ylabel('Local PPS (Pieces Per Second)')
     plt.title('PPS Throughout My Personal Best')
 
     plt.ylim((2, 4))
