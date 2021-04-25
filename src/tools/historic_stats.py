@@ -39,7 +39,7 @@ if __name__ == '__main__':
 
     # filter the data to the zone without any gaps
     last_date = replay_dates[-1]
-    for i in range(2018, last_date.year + 1):
+    for i in range(2020, last_date.year + 1):
         for j in range(1, 13):
             if i == 2020 and j < 5:
                 continue
@@ -65,7 +65,7 @@ if __name__ == '__main__':
     ax.set_xticklabels(ticklabels) #add monthlabels to the xaxis
 
     plt.xlabel('Date (Year-Month)')
-    plt.ylabel('# of completed games')
+    plt.ylabel('Number of Completed Games')
     plt.title('Completed Tetris Games Per Month')
 
     plt.tight_layout(rect=[0, 0, 0.85, 1])
@@ -90,7 +90,7 @@ if __name__ == '__main__':
     ax.hist(pps_dict[hist_key], bins=20)
 
     plt.xlabel('PPS (Pieces Per Second)')
-    plt.ylabel('# of completed games')
+    plt.ylabel('Number of Completed Games')
     plt.title('PPS Histogram for February 2021')
 
     plt.show()
