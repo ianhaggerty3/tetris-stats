@@ -6,7 +6,6 @@ import sys
 
 from matplotlib import pyplot as plt
 from matplotlib import ticker as ticker
-import pandas as pd
 import numpy as np
 
 sys.path.append(os.path.abspath('../tetris_stats'))
